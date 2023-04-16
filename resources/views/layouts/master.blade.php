@@ -129,7 +129,7 @@
           <ul class="menu-inner py-1">
 
             <li class="menu-item">
-              <a href="index.html" class="menu-link">
+              <a href="{{url('/dashboard')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
@@ -140,14 +140,14 @@
             </li>
 
             <li class="menu-item">
-              <a href="index.html" class="menu-link">
+              <a href="{{url('/kategori')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-category"></i>
                 <div data-i18n="Analytics">Kategori</div>
               </a>
             </li>
 
             <li class="menu-item">
-              <a href="index.html" class="menu-link">
+              <a href="{{url('/produk')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-component"></i>
                 <div data-i18n="Analytics">Produk</div>
               </a>
@@ -268,10 +268,13 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <form action="/logout" method="POST">
+                        @csrf
+                      <button class="dropdown-item" type="submit">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
-                      </a>
+                      </button>
+                    </form>
                     </li>
                   </ul>
                 </li>

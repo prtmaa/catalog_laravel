@@ -1,0 +1,1 @@
+<?php /**PATH C:\xampp\htdocs\katalog_laravel\resources\views/produk/index.blade.php ENDPATH**/ ?>

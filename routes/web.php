@@ -21,10 +21,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [AuthController::class, 'index']);
-Route::get('/dashboard', [DashboardController::class, 'index']);
-Route::get('/produk', [ProdukController::class, 'index']);
+Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::get('/produk', [ProdukController::class, 'index']);
 
 
-Route::get('/kategori', [KategoriController::class, 'index']);
-Route::post('/kategori', [KategoriController::class, 'store']);
+    Route::get('/kategori', [KategoriController::class, 'index']);
+    Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+    Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('kategori.show');
+    Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+});

@@ -5,17 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Resources\KategoriResource;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Exception;
 
 class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kategoris = Kategori::all();
+        $keyword = $request->keyword;
 
-        return KategoriResource::collection($kategoris);
+        $kategoris = Kategori::orderBy('id', 'desc')->where('nama_kategori', 'LIKE', '%' . $keyword . '%')->paginate(10);
+
+        return view('kategori.index', compact('kategoris'));
     }
 
     /**
@@ -40,15 +44,17 @@ class KategoriController extends Controller
 
         $kategori->save();
 
-        return new KategoriResource($kategori);
+        return redirect('/kategori')->with('success', 'Data Berhasil Disimpan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Kategori $kategori)
+    public function show($id)
     {
-        //
+        $kategori = Kategori::find($id);
+
+        return response()->json($kategori);
     }
 
     /**
@@ -73,7 +79,7 @@ class KategoriController extends Controller
 
         $kategori->update();
 
-        return new KategoriResource($kategori);
+        return redirect('/kategori')->with('success', 'Data Berhasil Diedit');
     }
 
     /**
@@ -81,9 +87,14 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        $kategori = Kategori::findOrFail($id);
-        $kategori->delete();
 
-        return new KategoriResource($kategori);
+        try {
+            $kategori = Kategori::findOrFail($id);
+            $kategori->delete();
+            return redirect('/kategori')->with('success', 'Data Berhasil Dihapus');
+        } catch (Exception $e) {
+
+            return redirect('/kategori')->with('success', 'Data Gagal Dihapus');
+        }
     }
 }

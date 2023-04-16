@@ -14,7 +14,8 @@ class ProdukController extends Controller
     public function index()
     {
         $produks = Produk::all();
-        return ProdukResource::collection($produks->loadMissing('kategori:id,nama_kategori'));
+
+        return view('produk.index', compact('produks'));
     }
 
     /**

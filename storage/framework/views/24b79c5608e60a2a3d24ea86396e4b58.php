@@ -1,22 +1,23 @@
-@extends('layouts.master')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-2">Data Kategori</h4>
 
     <!-- Basic Bootstrap Table -->
     <div class="card">
-        @if (session()->has('success'))
+        <?php if(session()->has('success')): ?>
             <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                {{session('success')}}
+                <?php echo e(session('success')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif
+        <?php endif; ?>
 
       <div class="row justify-content-between mt-3">
         <div class="col-12 col-md-8 px-5 mb-2">
-            <button type="button" onclick="addForm('{{route('kategori.store')}}')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#form-modal">Tambah Data</button>
+            <button type="button" onclick="addForm('<?php echo e(route('kategori.store')); ?>')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#form-modal">Tambah Data</button>
         </div>    
 
         <div class="col-12 col-md-4 px-5">
@@ -39,37 +40,38 @@
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            @foreach ($kategoris as $item)
+            <?php $__currentLoopData = $kategoris; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
-                <td>{{$loop->iteration}}</td>
-                <td><strong>{{$item->nama_kategori}}</strong></td>
+                <td><?php echo e($loop->iteration); ?></td>
+                <td><strong><?php echo e($item->nama_kategori); ?></strong></td>
                 <td>
                     <div class="demo-inline-spacing">
-                        <button type="button" onclick="editForm('{{route('kategori.update', $item->id )}}')" class="btn btn-icon btn-sm btn-primary"  data-toggle="modal" data-target="#form-modal">
+                        <button type="button" onclick="editForm('<?php echo e(route('kategori.update', $item->id )); ?>')" class="btn btn-icon btn-sm btn-primary"  data-toggle="modal" data-target="#form-modal">
                           <span class="tf-icons bx bx-pen"></span>
                         </button>
-                        <button type="button" onclick="deleteData('{{route('kategori.destroy', $item->id)}}')" class="btn btn-icon btn-sm btn-danger">
+                        <button type="button" onclick="deleteData('<?php echo e(route('kategori.destroy', $item->id)); ?>')" class="btn btn-icon btn-sm btn-danger">
                           <span class="tf-icons bx bx-trash"></span>
                         </button>
                     </div>
                 </td>
               </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </tbody>
         </table>
         <div class="px-5 mt-5">
-            {{$kategoris->withQueryString()->links()}}
+            <?php echo e($kategoris->withQueryString()->links()); ?>
+
         </div>
       </div>
     </div>
     
-    @include('kategori.form')
-    @include('kategori.delete')
+    <?php echo $__env->make('kategori.form', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('kategori.delete', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@push('js')
+<?php $__env->startPush('js'); ?>
     <script>
         setTimeout(() => {
             $('.alert').fadeOut();
@@ -105,4 +107,5 @@
             $('#modal-delete [name=_method]').val('delete');
         }
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\katalog_laravel\resources\views/kategori/index.blade.php ENDPATH**/ ?>

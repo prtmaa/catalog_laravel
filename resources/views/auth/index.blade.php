@@ -126,14 +126,30 @@
               <h4 class="mb-2">Welcome to Admin Page! 👋</h4>
               <p class="mb-4">Masukan Email dan Password</p>
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="formAuthentication" class="mb-3" action="/login" method="POST">
+                @csrf
+
+                @if (session()->has('loginError'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{session('loginError')}}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @error('email')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{$message}}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @enderror
+
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="text"
                     class="form-control"
                     id="email"
-                    name="email-username"
+                    name="email"
                     placeholder="Enter your email or username"
                     autofocus
                   />
